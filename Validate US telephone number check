@@ -1,0 +1,52 @@
+
+//Example numbers
+/*555-555-5555
+(555)555-5555
+(555) 555-5555
+555 555 5555
+5555555555
+1 555 555 5555*/
+
+function telephoneCheck(str) {
+  // Good luck!
+  var nTest, bTest, dTest;
+  var flag = 0;
+  nTest  = str.match(/\d/g);//test for number
+  bTest = str.match(/[()]/g);//test for brackets
+  dTest = str.match(/\d|\-/g);//test for dash
+
+  if(nTest.length != 10){
+    if(nTest.length == 11){
+      if(nTest[0] != 1){
+        flag = 1;
+      }
+    }
+    else flag = 1;
+  }
+  if(bTest !== null &&(bTest.length%2 !== 0)){
+    flag =1;
+  }
+  else if(bTest !== null && bTest.length%2 === 0){
+    if(bTest[0] != "(" || bTest[bTest.length-1]!= ")"){
+      flag =1;
+    }
+    if(str[str.length-1] ==")"){
+      flag =1;
+    }
+  }
+  if(dTest !== null){
+    if(dTest[0]=="-" || dTest[dTest.length-1] == "-"){
+        flag = 1;
+    }
+  }
+  
+  
+  if(flag ===0){
+    return true;
+  }
+  else return false;
+}
+
+
+
+telephoneCheck("555-555-5555");
