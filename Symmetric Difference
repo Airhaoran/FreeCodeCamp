@@ -1,0 +1,60 @@
+/*Create a function that takes two or more arrays and returns an array of the symmetric difference (△ or ⊕) of the provided arrays.
+
+Given two sets (for example set A = {1, 2, 3} and set B = {2, 3, 4}), the mathematical term "symmetric difference" of two sets is the
+set of elements which are in either of the two sets, but not in both (A △ B = C = {1, 4}). For every additional symmetric difference
+you take (say on a set D = {2, 3}), you should get the set with elements which are in either of the two the sets but not both
+(C △ D = {1, 4} △ {2, 3} = {1, 2, 3, 4}).*/
+
+
+function sym(args) {
+  var tempArr = arguments[0].filter(function(elem, index, self) {
+    return index == self.indexOf(elem);
+});// remove dup elements;
+  var myArr= arguments[1].filter(function(elem, index, self) {
+    return index == self.indexOf(elem);
+});// remove dup elements;
+  var map=[];//create a map to record;
+  var res = [];
+  var newArr = [tempArr,myArr].reduce(function(a, b) {
+  return a.concat(b);
+}, []);// create first array;
+  for(var i = 0;i<newArr.length;i++){//Input first array to map;
+    if(map[newArr[i]]>0){
+      map[newArr[i]]++;
+    }
+    else {
+      map[newArr[i]]=1;
+    }
+  }
+  tempArr = [];
+  if(arguments.length>2){//if more than two array, input other arrays to map;
+    for(var j =2;j<arguments.length;j++){
+      tempArr = arguments[j].filter(function(elem, index, self) {
+       return index == self.indexOf(elem);
+       });//remove dup elements
+      for(var x=0;x<tempArr.length;x++){
+        
+        if(map[tempArr[x]]>0){
+          
+        map[tempArr[x]]++;
+        }
+        else{ 
+          map[tempArr[x]]=1;
+        }
+      }
+      tempArr=[];//empty out temp array;
+    }
+  }
+
+  for(var y = 1; y<map.length;y++){//check map, only keep odd elements;
+    if(map[y]===null){
+      map[y]=0;
+    }
+    if(map[y]%2==1){
+       res.push(y);
+     }
+  }
+  return res;
+}
+
+sym([1, 1, 2, 5], [2, 2, 3, 5], [3, 4, 5, 5]);
