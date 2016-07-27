@@ -1,0 +1,63 @@
+/*Design a cash register drawer function checkCashRegister() that accepts purchase price as the first argument (price), payment as the
+second argument (cash), and cash-in-drawer (cid) as the third argument.
+
+cid is a 2D array listing available currency.
+
+Return the string "Insufficient Funds" if cash-in-drawer is less than the change due. Return the string "Closed" if cash-in-drawer
+is equal to the change due.
+
+Otherwise, return change in coin and bills, sorted in highest to lowest order.*/
+
+//
+function checkCashRegister(price, cash, cid) {
+  var change=[];
+  var table = [[0.01,0],[0.05,0],[0.1,0],[0.25,0],[1,0],[5,0],[10,0],[20,0],[100,0]];
+  //creat a table with value and amount;
+  var map = [0,0,0,0,0,0,0,0,0];
+  //create a map that saves how many coins of each value are used;
+  var total=0;//tatol money we have;
+  var left = cash-price;//the money we need to change left;
+  var i=0,j = table.length-1;
+  for(i =0;i<table.length;i++){
+    table[i][1]=cid[i][1];
+    total+=cid[i][1];
+  }//fill out table and total;
+  if(left>total){
+    return "Insufficient Funds";
+  }//no enough money;
+  if(left==total){
+    return "Closed";
+  }//exactly enough money;
+  while(left>=0&&j>=0){//while still have to pay and still have coin;
+    if(left.toFixed(2)>=table[j][0]&&table[j][1]>0){//while value of coin is smaller than the money left, and still enough money in the drawer;
+      left = left-table[j][0];//decrease money by the value of that coin;
+      table[j][1]-=table[j][0];//decreasr the amount of this coin in the table;
+      map[j]++;//mark this in the map;
+    }
+    else(j--);//move to next coin;
+  }
+
+  if(left>=0.01) return "Insufficient Funds" ;//final check
+  i=0;
+  for(j = map.length-1;j>=0;j--){//transfer the data from map to change;
+    if(map[j]!==0){
+      change[i]=[cid[j][0],Number((map[j]*table[j][0]).toFixed(2))];
+      i++;
+    }
+    
+  }
+  return change;
+}
+
+// Example cash-in-drawer array:
+// [["PENNY", 1.01],
+// ["NICKEL", 2.05],
+// ["DIME", 3.10],
+// ["QUARTER", 4.25],
+// ["ONE", 90.00],
+// ["FIVE", 55.00],
+// ["TEN", 20.00],
+// ["TWENTY", 60.00],
+// ["ONE HUNDRED", 100.00]]
+
+checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]);
