@@ -1,3 +1,3 @@
 # FreeCodeCamp
 FreeCodeCamp solutions
-Some algorithms
+Some algorithms in JavaScript
